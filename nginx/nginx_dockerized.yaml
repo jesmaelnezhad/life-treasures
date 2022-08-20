@@ -1,0 +1,10 @@
+version: '3.3'
+
+services:
+  nginx:
+    build: ./nginx
+    volumes:
+      - ./app/staticfiles:/home/app/web/staticfiles
+      - ./app/mediafiles:/home/app/web/mediafiles
+    ports:
+      - 1337:80

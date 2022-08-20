@@ -1,0 +1,17 @@
+input {
+  file {
+    path => "/usr/share/logs/logs.txt"
+    start_position => "beginning"
+    sincedb_path => "/dev/null"
+  }
+}
+filter {
+
+}
+output {
+    elasticsearch {
+        hosts => "${ELASTICSEARCH_HOST_PORT}"
+        user => "${ELASTIC_USERNAME}"
+        password => "${ELASTIC_PASSWORD}"
+    }
+}

@@ -1,0 +1,30 @@
+version: '3.5'
+
+networks:
+  default:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.0.0/24
+
+
+services:
+  vpn_0:
+    image: ghcr.io/bubuntux/nordlynx
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.conf.all.rp_filter=2
+    devices:
+      - /dev/net/tun
+    environment:
+      - PRIVATE_KEY=${PRIVATE_KEY}
+        #      - QUERY=filters\[country_id\]=
+      - PUBLIC_KEY=${PUBLIC_KEY}
+      - END_POINT=${END_POINT}
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1

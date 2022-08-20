@@ -1,0 +1,21 @@
+version: "3"
+services:
+    db:
+        image: postgres:13.0-alpine
+        container_name: ${DB_HOST}
+        ports:
+            - "${DB_PORT}:5432"
+        environment:
+            POSTGRES_DB: ${DB_NAME}
+            POSTGRES_USER: ${DB_USER}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+        volumes:
+            - ./dump/init.sql:/docker-entrypoint-initdb.d/create_tables.sql:Z
+            - "./postgres.conf:/usr/local/etc/postgres/postgres.conf"
+            - "./pg_hba.conf:/usr/local/etc/postgres/pg_hba.conf"
+            - "./data:/var/lib/postgresql/data:delegated"
+        command: "postgres -c config_file=/usr/local/etc/postgres/postgres.conf"
+        networks:
+            - default
+volumes:
+    persistent:

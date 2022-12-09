@@ -5,12 +5,15 @@ services:
     build:
       context: ./app
       dockerfile: Dockerfile.prod
-    command: gunicorn eterex.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn mydjangoproject.wsgi:application --bind 0.0.0.0:8000 --access-logfile -
     volumes:
       - ./app/:/home/app/web/
-      - ./app/staticfiles:/home/app/web/staticfiles
-      - ./app/mediafiles:/home/app/web/mediafiles
+      - ./staticfiles:/home/app/web/staticfiles
+      - ./mediafiles:/home/app/web/mediafiles
+      - ./db_data:/home/app/web/db_data
     expose:
       - 8000
+    ports:
+      - 8000:8000
     env_file:
       - ./.env

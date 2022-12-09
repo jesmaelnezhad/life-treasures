@@ -8,3 +8,4 @@ requests
 pytz
 jdatetime
 python-dateutil
+graphene-django==3.0.0

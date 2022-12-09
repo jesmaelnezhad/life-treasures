@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api_server',
     'corsheaders',
+    'graphene_django'
 ]
 
 MIDDLEWARE = [
@@ -132,10 +133,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 print(BASE_DIR, flush=True)
-# STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "staticfiles"),
-)
+STATIC_ROOT = BASE_DIR / "staticfiles"
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, "staticfiles"),
+# )
 MEDIA_URL = "/media/"
 
 # Default primary key field type

@@ -1,2 +1,11 @@
-staticfiles/
-mediafiles/
+app/api_server/migrations/__pycache__/*
+app/fraud_control_service/__pycache__/*
+app/api_server/__pycache__/*
+app/.idea/*
+app/db.sqlite3
+staticfiles/*
+mediafiles/*
+.env.test
+.env.prod
+.end.dev
+app/env

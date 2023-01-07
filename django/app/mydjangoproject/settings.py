@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,10 +45,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api_server',
     'corsheaders',
-    'graphene_django'
+    'graphene_django',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -153,3 +155,38 @@ LOGGING = {
     },
     "loggers": {"api_server": {"handlers": ["console"], "level": "INFO"}},
 }
+
+if DEBUG:
+    # INTERNAL_IPS = [
+    #     # ...
+    #     "127.0.0.1",
+    #     # ...
+    # ]
+
+    DEBUG_TOOLBAR_PANELS = [
+        'debug_toolbar.panels.history.HistoryPanel',
+        'debug_toolbar.panels.versions.VersionsPanel',
+        'debug_toolbar.panels.timer.TimerPanel',
+        'debug_toolbar.panels.settings.SettingsPanel',
+        'debug_toolbar.panels.headers.HeadersPanel',
+        'debug_toolbar.panels.request.RequestPanel',
+        'debug_toolbar.panels.sql.SQLPanel',
+        'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+        'debug_toolbar.panels.templates.TemplatesPanel',
+        'debug_toolbar.panels.cache.CachePanel',
+        'debug_toolbar.panels.signals.SignalsPanel',
+        'debug_toolbar.panels.logging.LoggingPanel',
+        'debug_toolbar.panels.redirects.RedirectsPanel',
+        'debug_toolbar.panels.profiling.ProfilingPanel',
+    ]
+
+    import socket  # only if you haven't already imported this
+    import ipaddress
+
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    print(ips, flush=True)
+    INTERNAL_IPS_TMP = [ip[: ip.rfind(".")] + ".0/24" for ip in ips] + ["127.0.0.1", "10.0.2.2"]
+    INTERNAL_IPS = []
+    for ip in INTERNAL_IPS_TMP:
+        INTERNAL_IPS += [str(ip) for ip in ipaddress.IPv4Network(ip)]
+    print(INTERNAL_IPS, flush=True)

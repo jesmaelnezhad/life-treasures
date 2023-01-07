@@ -10,3 +10,5 @@ jdatetime
 python-dateutil
 graphene-django==3.0.0
 python-json-logger
+django-debug-toolbar
+ipaddress

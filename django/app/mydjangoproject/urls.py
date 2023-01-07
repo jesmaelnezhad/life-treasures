@@ -20,6 +20,7 @@ from api_server.schema import schema
 
 
 urlpatterns = [
+    path('__debug__/', include('debug_toolbar.urls')),
     path('admin/', admin.site.urls),
     path("graphql", GraphQLView.as_view(graphiql=True, schema=schema)),
     path('', include('api_server.urls'))

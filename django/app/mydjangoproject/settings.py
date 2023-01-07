@@ -23,7 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY", default="dgflkjshdgflkajfhalsjkdfhaslkkdf")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True  # int(os.environ.get("DEBUG", default=1))
+DEBUG = int(os.environ.get("DEBUG", default=0))
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False if DEBUG == 0 else True
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", default="*").split(" ")
 
@@ -47,6 +49,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'graphene_django',
     'debug_toolbar',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -154,6 +157,13 @@ LOGGING = {
         }
     },
     "loggers": {"api_server": {"handlers": ["console"], "level": "INFO"}},
+}
+
+ASGI_APPLICATION = 'mydjangoproject.routing.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': "channels.layers.InMemoryChannelLayer"
+    }
 }
 
 if DEBUG:
